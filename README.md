@@ -71,37 +71,41 @@ The solver starts at depth 0 and iteratively increases the search depth. At ever
 
 Prints the scramble, the visual state, the time taken, and the solution sequence.
 
-Scramble moves:  
-L U2 L B2 D U L2 
+## Sample Output
 
-Scrambled cube:  
-      B Y Y  
-      W W Y  
-      Y B W  
-W G G O O O G B B R O O  
-R O R B G G R R O G B W  
-Y B W R O R W G G R R O  
-      G W B  
-      W Y Y  
+```text
+Scramble moves:
+L U2 L B2 D U L2
+
+Scrambled cube:
+      B Y Y
+      W W Y
+      Y B W
+W G G O O O G B B R O O
+R O R B G G R R O G B W
+Y B W R O R W G G R R O
+      G W B
+      W Y Y
       B Y Y
 
-\============================  
+============================
 Time taken by solver: 6312 ms
+============================
 
-\============================  
-Solution FOUND within depth 7  
-Solution moves:  
+Solution FOUND within depth 7
+Solution moves:
 L2 U' D' B2 L' U2 L'
 
-Cube after solver:  
-      W W W  
-      W W W  
-      W W W  
-O O O G G G R R R B B B  
-O O O G G G R R R B B B  
-O O O G G G R R R B B B  
-      Y Y Y  
-      Y Y Y  
+Cube after solver:
+      W W W
+      W W W
+      W W W
+O O O G G G R R R B B B
+O O O G G G R R R B B B
+O O O G G G R R R B B B
+      Y Y Y
+      Y Y Y
       Y Y Y
 
-Cube solved? YES  
+Cube solved? YES
+```
