@@ -1,75 +1,130 @@
-# **Optimized Rubik's Cube Solver**
+# Optimized Rubik's Cube Solver (C++)
 
-## **Overview**
+## Overview
 
-This project addresses the problem of solving a 3x3x3 Rubik's Cube in the minimum number of moves. It models the physical cube using low-level data structures and employs an **Iterative Deepening Depth-First Search (IDDFS)** algorithm to explore the state space. The solver is highly optimized using move pruning techniques to eliminate redundant searches and utilizes integer-based arithmetic for maximum performance.
+This project solves a **3×3×3 Rubik's Cube** in the minimum number of moves.
+It models the physical cube using low-level data structures and employs an
+**Iterative Deepening Depth-First Search (IDDFS)** algorithm to explore the state space.
 
-## **Input Format**
+The solver is optimized using aggressive move pruning and integer-based state
+representation, avoiding expensive string operations for better performance.
 
-The solver currently operates on internally generated scrambles.  
-To modify the input configuration, update the main.cpp file:
+---
 
-* scrambleLength: Integer defining the number of random moves to scramble the cube.  
-* maxDepth: Integer defining the maximum search depth for the solver.
+## Input Format
 
-## **Output Format**
+The solver currently operates on **internally generated scrambles**.
 
-1. **Scramble Sequence:** The list of moves applied to scramble the cube.  
-2. **Cube State:** A 2D text-based visualization of the cube faces.  
-3. **Execution Time:** Time taken by the solver in milliseconds.  
-4. **Solution:** The sequence of moves found to solve the cube (if found within the depth limit).  
-5. **Verification:** A final check indicating if the cube is solved ("YES").
+To modify the input configuration, edit `main.cpp`:
 
-## **Compilation and Execution**
+* **scrambleLength**
+  Integer defining the number of random moves used to scramble the cube.
 
-Ensure a C++ compiler (GCC, Clang, or MSVC) supporting C++11 or later is installed.
+* **maxDepth**
+  Integer defining the maximum depth searched by the solver.
 
-Run the following command to compile the project with optimizations enabled:
+---
 
-g++ \-O3 \-o cube\_solver main.cpp Cube.cpp Face.cpp Move.cpp Renderer.cpp Scrambler.cpp Solver.cpp
+## Output Format
 
-Run the executable:
+The program produces the following output:
 
-./cube\_solver
+1. **Scramble Sequence** – the list of moves applied to scramble the cube.
+2. **Cube State** – a 2D text-based visualization of the cube.
+3. **Execution Time** – time taken by the solver in milliseconds.
+4. **Solution** – the sequence of moves used to solve the cube.
+5. **Verification** – final confirmation indicating whether the cube is solved.
 
-## **Key Components**
+---
 
-### **Algorithms Used**
+## Compilation and Execution
 
-* **Iterative Deepening DFS (IDDFS):** Explores the search tree layer by layer (Depth 1, Depth 2, etc.) to guarantee that the first solution found is the shortest possible one.  
-* **Move Pruning:** Reduces the search space by cutting off redundant branches:  
-  * **Redundancy Check:** Prevents turning the same face twice in a row (e.g., U followed by U).  
-  * **Commutative Ordering:** Enforces a specific order for independent opposite face turns (e.g., checking U D but skipping D U) to avoid processing identical states.
+### Requirements
 
-### **Core Functions**
+* C++ compiler (GCC, Clang, or MSVC)
+* C++11 or later
 
-* solve(int maxDepth): The main entry point that iterates through depths calling DFS.  
-* dfs(int depth, ...): The recursive worker function that explores move combinations and backtracks.  
-* applyMove(int moveIndex): Optimally applies a move to the cube state using integer mapping (0-17) rather than string parsing.  
-* isSolved(): Verifies if the cube state is solved (all faces have uniform colors).  
-* generateScramble(int length): Produces a valid random sequence of moves to initialize the cube.  
-* printCube(): Renders the unfolded cube state to the console.
+### Compile
 
-## **Idea**
+```bash
+g++ -O3 -o cube_solver \
+    main.cpp Cube.cpp Face.cpp Move.cpp Renderer.cpp Scrambler.cpp Solver.cpp
+```
 
-The core idea is to represent the cube state as flat arrays for cache-friendly memory access. Instead of using string-based moves (like "R", "U'"), the engine maps moves to integers (0-17). This allows for $O(1)$ move application and instant inverse lookups during backtracking.
+### Run
 
-The solver starts at depth 0 and iteratively increases the search depth. At every step of the DFS, it:
+```bash
+./cube_solver
+```
 
-1. Checks if the cube is solved.  
-2. Generates valid next moves.  
-3. **Prunes** moves that reverse the previous move or violate commutative ordering rules.  
-4. Recurses to the next depth.
+---
 
-## **Constraints Handled**
+## Key Components
 
-* **Optimal Solution:** Guarantees the shortest path to the solved state within the search depth.  
-* **Performance:** Minimizes memory allocation by avoiding string operations in the critical path.  
-* **State Validity:** Ensures only valid physical moves are applied to the cube model.
+### Algorithms Used
 
-## **Output**
+* **Iterative Deepening DFS (IDDFS)**
+  Searches the state space depth by depth, guaranteeing the shortest solution
+  when one is found.
 
-Prints the scramble, the visual state, the time taken, and the solution sequence.
+* **Move Pruning**
+  Reduces the search space by eliminating redundant branches:
+
+  * Prevents applying the same face move consecutively (e.g., `U` followed by `U`).
+  * Enforces a fixed order for opposite face moves (e.g., explores `U D` but skips `D U`).
+
+---
+
+## Core Functions
+
+* `solve(int maxDepth)`
+  Entry point that iterates over increasing depth limits and invokes DFS.
+
+* `dfs(int depth, ...)`
+  Recursive search function that explores valid move sequences and backtracks.
+
+* `applyMove(int moveIndex)`
+  Applies a move using integer mapping (`0–17`) instead of string parsing.
+
+* `isSolved()`
+  Checks whether all cube faces contain uniform colors.
+
+* `generateScramble(int length)`
+  Generates a valid random scramble sequence.
+
+* `printCube()`
+  Prints the unfolded cube state to the console.
+
+---
+
+## Idea
+
+The cube state is represented using **flat arrays** for cache-friendly memory access.
+Moves are mapped to integers (`0–17`) rather than strings, enabling constant-time
+move application and fast inverse lookups.
+
+The solver starts at depth `0` and incrementally increases the search depth. At each
+DFS step, it:
+
+1. Checks whether the cube is solved.
+2. Generates valid next moves.
+3. Prunes moves that reverse the previous move or violate ordering rules.
+4. Recursively explores the next depth level.
+
+---
+
+## Constraints Handled
+
+* **Optimal Solution**
+  Guarantees the shortest solution within the specified search depth.
+
+* **Performance**
+  Minimizes memory allocation and avoids string operations in the critical path.
+
+* **State Validity**
+  Ensures only physically valid cube moves are applied.
+
+---
 
 ## Sample Output
 
@@ -109,3 +164,7 @@ O O O G G G R R R B B B
 
 Cube solved? YES
 ```
+
+---
+
+
