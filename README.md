@@ -47,8 +47,7 @@ The program produces the following output:
 ### Compile
 
 ```bash
-g++ -O3 -o cube_solver \
-    main.cpp Cube.cpp Face.cpp Move.cpp Renderer.cpp Scrambler.cpp Solver.cpp
+g++ src/main.cpp src/Face.cpp src/Cube.cpp src/Move.cpp src/Scrambler.cpp src/Renderer.cpp src/Solver.cpp -Iinclude -std=c++17 -Wall -Wextra -O2 -o cube_test
 ```
 
 ### Run
